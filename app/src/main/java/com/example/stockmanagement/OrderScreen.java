@@ -1,11 +1,15 @@
 package com.example.stockmanagement;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.stockmanagement.constant.ItemType;
@@ -14,53 +18,91 @@ import com.example.stockmanagement.dao.DBHelper;
 import com.example.stockmanagement.dao.ItemRepository;
 import com.example.stockmanagement.dao.OrderRepository;
 import com.example.stockmanagement.dto.ItemDto;
+import com.example.stockmanagement.view.DeliveredOrderFragment;
+import com.example.stockmanagement.view.PendingOrderFragment;
+import com.example.stockmanagement.view.PurchaseOrderFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class OrderScreen extends AppCompatActivity {
 
-    private DBHelper dbHelper = new DBHelper(this);
-    private ItemRepository itemRepo = new ItemRepository(dbHelper);
-    private OrderRepository orderRepo = new OrderRepository(dbHelper);
+    TabLayout tabLayout;
+    ViewPager viewPager;
+
+    private static final String SALES_PENDING="Sales Pending";
+    private static final String SALES_DELIVERED="Sales Delivered";
+    private static final String PURCHASE="Purchase";
+
+    private PendingOrderFragment pendingOrderFragment;
+    private DeliveredOrderFragment deliveredOrderFragment;
+    private PurchaseOrderFragment purchaseOrderFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_screen);
-        initOrderType();
+
+        pendingOrderFragment = new PendingOrderFragment();
+        deliveredOrderFragment = new DeliveredOrderFragment();
+        purchaseOrderFragment = new PurchaseOrderFragment();
+
+        tabLayout = findViewById(R.id.order_tabLayout);
 
 
 
-    }
+        TabLayout.Tab firstTable = tabLayout.newTab().setText(SALES_PENDING);
+        tabLayout.addTab(firstTable);
+        tabLayout.addTab(tabLayout.newTab().setText(SALES_DELIVERED));
+        tabLayout.addTab((tabLayout.newTab().setText(PURCHASE)));
+        setTabContent(firstTable);
 
-    private void initOrderType() {
-        Spinner orderTypeSpinner = findViewById(R.id.add_order_type);
-        final List<String> itemTypes = new ArrayList<>();
-        for(OrderTypeEnum itemType : OrderTypeEnum.values()) {
-            itemTypes.add(itemType.name());
-        }
-        orderTypeSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemTypes));
-        orderTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedValue = parent.getItemAtPosition(position).toString();
-                initItemList(OrderTypeEnum.valueOf(selectedValue));
+            public void onTabSelected(TabLayout.Tab tab) {
+                setTabContent(tab);
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onTabUnselected(TabLayout.Tab tab) {
 
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
+
+        FloatingActionButton addOrderButton = findViewById(R.id.add_order_button);
+        addOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addOrderIntent = new Intent(OrderScreen.this, AddOrderScreen.class);
+                startActivity(addOrderIntent);
             }
         });
     }
 
-    private void initItemList(OrderTypeEnum orderType) {
-        Spinner itemSpinner = findViewById(R.id.add_order_item_spinner);
-        List<ItemDto> allItems = itemRepo.getAllItemsByType(orderType.getItemType());
-        List<String> itemCodes = new ArrayList<>();
-        for(ItemDto item : allItems) {
-            itemCodes.add(item.getCode());
+    private void setTabContent(TabLayout.Tab tab) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        switch (tab.getText().toString()) {
+            case SALES_PENDING :
+                fragmentTransaction.replace(R.id.fragmentContainer, pendingOrderFragment);
+                break;
+            case SALES_DELIVERED:
+                fragmentTransaction.replace(R.id.fragmentContainer, deliveredOrderFragment);
+                break;
+            case PURCHASE:
+                fragmentTransaction.replace(R.id.fragmentContainer, purchaseOrderFragment);
+                break;
         }
-        itemSpinner.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, itemCodes));
+
+        fragmentTransaction.commit();
     }
 }

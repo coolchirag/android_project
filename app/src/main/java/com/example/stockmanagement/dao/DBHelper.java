@@ -85,6 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 OrderMstTableConstant.ORDER_ID + " TEXT NOT NULL, " +
                 OrderMstTableConstant.ORDER_TYPE + " TEXT NOT NULL, " +
                 OrderMstTableConstant.ITEM_ID + "	INTEGER NOT NULL," +
+                OrderMstTableConstant.ORDER_CODE + " TEXT NOT NULL, " +
                 OrderMstTableConstant.ORDERED_QUANTITY + "	INTEGER NOT NULL," +
                 OrderMstTableConstant.DELIVERED_QUANTITY + "	INTEGER," +
                 OrderMstTableConstant.STATUS + "	TEXT," +

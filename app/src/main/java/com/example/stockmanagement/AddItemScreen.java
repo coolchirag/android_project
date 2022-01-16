@@ -49,6 +49,7 @@ public class AddItemScreen extends AppCompatActivity {
         });
     }
 
+
     private void saveItem() {
         ItemDto itemDto = new ItemDto();
         itemDto.setCode(((TextView) findViewById(R.id.add_item_code)).getText().toString());

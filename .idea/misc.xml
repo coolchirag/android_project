@@ -5,12 +5,17 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/activity_add_item_screen.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/activity_add_order_screen.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3697916666666667" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/activity_order_screen.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/content_navigation_drawer.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/delivered_order_list_element.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/fragment_delivered_order.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/fragment_pending_order.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/fragment_purchase_order.xml" value="0.2653985507246377" />
         <entry key="app/src/main/res/layout/fragment_slideshow.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/item_list_layout.xml" value="0.75" />
         <entry key="app/src/main/res/layout/mylist.xml" value="0.20729166666666668" />

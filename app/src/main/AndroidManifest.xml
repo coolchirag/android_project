@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.StockManagement">
         <activity
+            android:name=".AddOrderScreen"
+            android:exported="false" />
+        <activity
             android:name=".OrderScreen"
             android:exported="false" />
         <activity

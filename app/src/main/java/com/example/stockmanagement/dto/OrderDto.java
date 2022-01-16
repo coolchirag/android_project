@@ -9,8 +9,9 @@ public class OrderDto {
     private String orderId;
     private OrderTypeEnum type;
     private Integer itemId;
-    private Integer orderedQuantity;
-    private Integer deliveredQuantity;
+    private String orderCode;
+    private Integer orderedQuantity = 0;
+    private Integer deliveredQuantity = 0;
     private OrderStatusEnum status;
 
     public Integer getId() {
@@ -67,5 +68,13 @@ public class OrderDto {
 
     public void setStatus(OrderStatusEnum status) {
         this.status = status;
+    }
+
+    public String getOrderCode() {
+        return orderCode;
+    }
+
+    public void setOrderCode(String orderCode) {
+        this.orderCode = orderCode;
     }
 }

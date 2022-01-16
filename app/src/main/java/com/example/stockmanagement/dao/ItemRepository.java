@@ -33,7 +33,7 @@ public class ItemRepository {
         contentValues.put(ItemMstTableConstant.QUANTITY, itemDto.getQuantity());
         contentValues.put(ItemMstTableConstant.UPDATED_DATE, (new Date()).toString());
         db.insert(ItemMstTableConstant.TABLE_NAME, null, contentValues);
-
+        db.close();
         return true;
     }
 
@@ -42,32 +42,63 @@ public class ItemRepository {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME, null);
-        cursor.moveToFirst();
-        int idColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.ID);
-        int codeColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.CODE);
-        int descColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.DESCRIPTION);
-        int quantityColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.QUANTITY);
 
-
-        while (cursor.isAfterLast() == false) {
-            ItemDto item = new ItemDto();
-            item.setId(cursor.getInt(idColumnIndex));
-            item.setCode(cursor.getString(codeColumnIndex));
-            item.setDescription(cursor.getString(descColumnIndex));
-            item.setQuantity(cursor.getInt(quantityColumnIndex));
-
-            items.add(item);
-            cursor.moveToNext();
-        }
-        return items;
+        List<ItemDto> result = mapCursorToItemDtos(cursor);
+        db.close();
+        return result;
     }
 
     public List<ItemDto> getAllItemsByType(ItemType itemType) {
-        final List<ItemDto> items = new ArrayList<>();
+
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME + " where " + ItemMstTableConstant.TYPE + " = " + itemType.name(), null);
+        Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME + " where " + ItemMstTableConstant.TYPE + " =? " , new String[]{itemType.name()});
+
+        List<ItemDto> result = mapCursorToItemDtos(cursor);
+        db.close();
+        return result;
+
+    }
+
+    public ItemDto getItemsByCode(String itemCode) {
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME + " where " + ItemMstTableConstant.CODE + " =?", new String[]{itemCode});
+
+        List<ItemDto> result = mapCursorToItemDtos(cursor);
+        db.close();
+
+        ItemDto itemDto = null;
+        if(result!=null) {
+            itemDto = result.get(0);
+        }
+        return itemDto;
+
+    }
+
+    public ItemDto getItemsById(Integer id) {
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME + " where " + ItemMstTableConstant.ID + " =?", new String[]{String.valueOf(id)});
+
+        List<ItemDto> result = mapCursorToItemDtos(cursor);
+        db.close();
+
+        ItemDto itemDto = null;
+        if(result!=null) {
+            itemDto = result.get(0);
+        }
+        return itemDto;
+
+    }
+
+    private List<ItemDto> mapCursorToItemDtos(Cursor cursor) {
+        final List<ItemDto> items = new ArrayList<>();
         cursor.moveToFirst();
         int idColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.ID);
         int codeColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.CODE);
@@ -75,7 +106,7 @@ public class ItemRepository {
         int quantityColumnIndex = cursor.getColumnIndex(ItemMstTableConstant.QUANTITY);
 
 
-        while (cursor.isAfterLast() == false) {
+        while (!cursor.isAfterLast()) {
             ItemDto item = new ItemDto();
             item.setId(cursor.getInt(idColumnIndex));
             item.setCode(cursor.getString(codeColumnIndex));
@@ -87,10 +118,13 @@ public class ItemRepository {
         }
         return items;
     }
+
+
 
     public boolean updateItemQuantity(Integer id, Integer quantity) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         db.execSQL("update " + ItemMstTableConstant.TABLE_NAME + " set " + ItemMstTableConstant.QUANTITY + " = " + ItemMstTableConstant.QUANTITY + " + " + quantity + " where id = " + id);
+        db.close();
         return true;
     }
 }
