@@ -11,19 +11,24 @@
         android:theme="@style/Theme.StockManagement">
         <activity
             android:name=".AddProductionScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Add Product"/>
         <activity
             android:name=".ProductionScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Production Management"/>
         <activity
             android:name=".AddOrderScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Add Order"/>
         <activity
             android:name=".OrderScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Oder Management"/>
         <activity
             android:name=".AddItemScreen"
-            android:exported="false" />
+            android:exported="false"
+            android:label="Add Item"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
