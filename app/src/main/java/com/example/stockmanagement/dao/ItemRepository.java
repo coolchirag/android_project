@@ -123,7 +123,7 @@ public class ItemRepository {
 
     public boolean updateItemQuantity(Integer id, Integer quantity) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.execSQL("update " + ItemMstTableConstant.TABLE_NAME + " set " + ItemMstTableConstant.QUANTITY + " = " + ItemMstTableConstant.QUANTITY + " + " + quantity + " where id = " + id);
+        db.execSQL("update " + ItemMstTableConstant.TABLE_NAME + " set " + ItemMstTableConstant.QUANTITY + " =?  where id =? ", new String[]{String.valueOf(quantity), String.valueOf(id)});
         db.close();
         return true;
     }

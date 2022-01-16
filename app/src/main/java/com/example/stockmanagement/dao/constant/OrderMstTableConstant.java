@@ -4,7 +4,7 @@ public final class OrderMstTableConstant {
     private OrderMstTableConstant() {
     }
 
-    public static final String TABLE_NAME="order";
+    public static final String TABLE_NAME="order_mst";
     public static final String ID = "id";
     public static final String ORDER_TYPE = "order_type";
     public static final String ORDER_ID = "order_id";

@@ -26,37 +26,53 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper dbHelper = new DBHelper(this);
     private ItemRepository itemRepo = new ItemRepository(dbHelper);
 
+    private ListView itemListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //dbHelper = new DBHelper(this);
+        this.itemListView = findViewById(R.id.itemListView);
 
         FloatingActionButton addItemButton = findViewById(R.id.item_add_button);
         addItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(MainActivity.this, AddItemScreen.class));
+                startActivity(new Intent(MainActivity.this, AddItemScreen.class));
+            }
+        });
+
+        findViewById(R.id.order_screen_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, OrderScreen.class));
             }
         });
-        updateItemList();
 
-    }
+        findViewById(R.id.production_screen_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, ProductionScreen.class));
+            }
+        });
 
-
-
-
-    private void updateItemList() {
-        List<ItemDto> allItems = itemRepo.getAllItems();
-        ListView itemListView = findViewById(R.id.itemListView);
-        itemListView.setAdapter(new ItemListAdapter(this, R.layout.item_list_layout, allItems));
-
-        itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        loadItemList();
+        this.itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), "You have clicked on position : " + position, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+
+
+    private void loadItemList() {
+        List<ItemDto> allItems = itemRepo.getAllItems();
+        this.itemListView.setAdapter(new ItemListAdapter(this, R.layout.item_list_layout, allItems));
+
+
     }
 }

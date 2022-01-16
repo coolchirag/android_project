@@ -10,6 +10,8 @@
     <ListView
         android:id="@+id/delivered_order_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="3dp"/>
 
 </FrameLayout>

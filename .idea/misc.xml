@@ -6,9 +6,11 @@
         <entry key="../../../../layout/custom_preview.xml" value="0.22239583333333332" />
         <entry key="app/src/main/res/layout/activity_add_item_screen.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/activity_add_order_screen.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/activity_add_production_screen.xml" value="0.17983789260385005" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3697916666666667" />
         <entry key="app/src/main/res/layout/activity_navigation_drawer.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/activity_order_screen.xml" value="0.20729166666666668" />
+        <entry key="app/src/main/res/layout/activity_production_screen.xml" value="0.17983789260385005" />
         <entry key="app/src/main/res/layout/app_bar_navigation_drawer.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/content_navigation_drawer.xml" value="0.20729166666666668" />
         <entry key="app/src/main/res/layout/delivered_order_list_element.xml" value="0.20729166666666668" />

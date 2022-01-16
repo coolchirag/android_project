@@ -87,6 +87,20 @@ public class OrderScreen extends AppCompatActivity {
                 startActivity(addOrderIntent);
             }
         });
+
+        findViewById(R.id.stock_screen_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OrderScreen.this, MainActivity.class));
+            }
+        });
+
+        findViewById(R.id.production_screen_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OrderScreen.this, ProductionScreen.class));
+            }
+        });
     }
 
     private void setTabContent(TabLayout.Tab tab) {

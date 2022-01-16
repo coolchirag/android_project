@@ -50,7 +50,7 @@ public class AddOrderScreen extends AppCompatActivity {
         this.orderTypeSpinner = findViewById(R.id.add_order_type);
         this.itemSpinner = findViewById(R.id.add_order_item_spinner);
         this.orderIdEditText = findViewById(R.id.add_order_id);
-        this.orderQuantityEditText = findViewById(R.id.add_order_quantity);
+        this.orderQuantityEditText = findViewById(R.id.add_order_order_quantity);
         this.deliverQuantityEditText = findViewById(R.id.add_deliver_quantity);
 
         initOrderType();
@@ -89,6 +89,8 @@ public class AddOrderScreen extends AppCompatActivity {
         this.orderTypeSpinner.setClickable(false);
         this.orderTypeSpinner.setEnabled(false);
 
+        initItemList(orderDto.getType());
+
         ItemDto itemDto = itemRepo.getItemsById(orderDto.getItemId());
         final Integer itemPosition = this.itemPositionMap.get(itemDto.getCode());
         this.itemSpinner.setSelection(itemPosition);
@@ -96,8 +98,8 @@ public class AddOrderScreen extends AppCompatActivity {
         this.itemSpinner.setEnabled(false);
 
         this.orderIdEditText.setText(orderDto.getOrderId());
-        this.orderQuantityEditText.setText(orderDto.getOrderedQuantity());
-        this.deliverQuantityEditText.setText(orderDto.getDeliveredQuantity());
+        this.orderQuantityEditText.setText(String.valueOf(orderDto.getOrderedQuantity()));
+        this.deliverQuantityEditText.setText(String.valueOf(orderDto.getDeliveredQuantity()));
 
     }
 
@@ -190,7 +192,13 @@ public class AddOrderScreen extends AppCompatActivity {
             orderRepo.insertOrder(orderDto);
         }
 
-        itemRepo.updateItemQuantity(itemDto.getId(), itemDto.getQuantity()-newlyDeliveredQuantity);
+        final Integer itemQuantity;
+        if(orderType.equals(OrderTypeEnum.PURCHASE)) {
+            itemQuantity = itemDto.getQuantity()+newlyDeliveredQuantity;
+        } else {
+            itemQuantity = itemDto.getQuantity()-newlyDeliveredQuantity;
+        }
+        itemRepo.updateItemQuantity(itemDto.getId(), itemQuantity);
         Toast.makeText(this, "Order is Saved", Toast.LENGTH_SHORT).show();
         returnToOrderScreen();
     }
