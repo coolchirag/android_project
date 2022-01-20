@@ -61,6 +61,19 @@ public class ItemRepository {
 
     }
 
+    public List<ItemDto> getSearchItemsByType(ItemType itemType, String searchTerm) {
+
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from " + ItemMstTableConstant.TABLE_NAME + " where " + ItemMstTableConstant.TYPE + " =? and " +ItemMstTableConstant.CODE+" like '%"+searchTerm+"%'", new String[]{itemType.name()});
+
+        List<ItemDto> result = mapCursorToItemDtos(cursor);
+        db.close();
+        return result;
+
+    }
+
     public ItemDto getItemsByCode(String itemCode) {
 
 
